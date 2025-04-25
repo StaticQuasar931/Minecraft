@@ -12,30 +12,38 @@
   <link rel="canonical" href="https://sites.google.com/view/staticquasar931/gm3z/minecraft-copy/minecraft-backup" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
 
-  <!-- Favicon (Optional) -->
+  <!-- Favicon -->
   <link rel="icon" href="https://staticquasar931.github.io/favicon.ico" />
 
   <style>
-    body {
+    :root {
+      --accent: #0ff;
+      --accent-dim: #00cccc;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    html, body {
+      height: 100%;
       margin: 0;
       font-family: 'Inter', sans-serif;
       background-color: #111;
       color: #fff;
       overflow: hidden;
     }
-
     iframe {
+      position: fixed;
+      inset: 0;
       width: 100vw;
       height: 100vh;
       border: none;
       display: block;
     }
-
     #backButton {
       position: fixed;
       top: 15px;
       left: 15px;
-      background-color: #0ff;
+      background-color: var(--accent);
       color: #000;
       padding: 10px 18px;
       font-weight: 600;
@@ -46,26 +54,44 @@
       z-index: 9999;
       box-shadow: 0 0 10px rgba(0,255,255,0.6);
       text-decoration: none;
-      transition: all 0.2s ease;
+      transition: background-color 0.2s ease, transform 0.15s ease;
     }
-
     #backButton:hover {
-      background-color: #00cccc;
+      background-color: var(--accent-dim);
+      transform: scale(1.05);
     }
   </style>
 
   <!-- Onbeforeunload -->
   <script>
     window.onbeforeunload = () => "Are you sure you want to leave? Your Minecraft progress may not be saved.";
+    window.addEventListener('DOMContentLoaded', () => {
+      const frame = document.querySelector('iframe');
+      // ensure keyboard focus on load & on click
+      frame.focus();
+      window.addEventListener('click', () => frame.focus(), { passive: true });
+      // maintain full-viewport sizing on resize
+      const resize = () => {
+        frame.style.width  = window.innerWidth  + 'px';
+        frame.style.height = window.innerHeight + 'px';
+      };
+      resize();
+      window.addEventListener('resize', resize, { passive: true });
+    });
   </script>
 </head>
 <body>
 
   <!-- Back to Main Site -->
-  <a href="https://sites.google.com/view/staticquasar931/gm3z/minecraft-copy/minecraft-backup" id="backButton">← Back to StaticQuasar931</a>
+  <a href="https://sites.google.com/view/staticquasar931/gm3z" id="backButton">← More Unblocked Games by Static</a>
 
   <!-- Game Iframe -->
-  <iframe src="https://slope-unblocked-10x.github.io/action-games/minecraft-15/" allowfullscreen></iframe>
+  <iframe
+    src="https://slope-unblocked-10x.github.io/action-games/minecraft-15/"
+    allow="fullscreen; pointer-lock; clipboard-write; gamepad; accelerometer; gyroscope"
+    allowfullscreen
+    tabindex="0">
+  </iframe>
 
 </body>
 </html>
