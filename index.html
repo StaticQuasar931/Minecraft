@@ -10,10 +10,10 @@
   <meta name="keywords" content="Minecraft unblocked, EaglerCraft backup, play Minecraft at school, browser Minecraft game, unblocked g@me, Minecraft web version, Minecraft HTML5, sandbox building game" />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://sites.google.com/view/staticquasar931/gm3z/minecraft-copy/minecraft-backup" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
 
-  <!-- Favicon -->
+  <!-- Favicon and Fonts -->
   <link rel="icon" href="https://staticquasar931.github.io/favicon.ico" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
 
   <style>
     :root {
@@ -62,27 +62,40 @@
     }
   </style>
 
-  <!-- Onbeforeunload -->
   <script>
-    window.onbeforeunload = () => "Are you sure you want to leave? Your Minecraft progress may not be saved.";
+    window.onbeforeunload = () =>
+      "Are you sure you want to leave? Your Minecraft progress may not be saved.";
+
     window.addEventListener('DOMContentLoaded', () => {
       const frame = document.querySelector('iframe');
-      // ensure keyboard focus on load & on click
-      frame.focus();
-      window.addEventListener('click', () => frame.focus(), { passive: true });
-      // maintain full-viewport sizing on resize
+
+      // Force full viewport sizing
       const resize = () => {
-        frame.style.width  = window.innerWidth  + 'px';
+        frame.style.width = window.innerWidth + 'px';
         frame.style.height = window.innerHeight + 'px';
       };
       resize();
       window.addEventListener('resize', resize, { passive: true });
+
+      // Best-effort: reapply focus repeatedly to help keyboard input
+      let focusTries = 0;
+      const interval = setInterval(() => {
+        try {
+          frame.focus();
+          focusTries++;
+          if (focusTries > 20) clearInterval(interval); // stop after enough attempts
+        } catch (e) {}
+      }, 200);
+
+      // Refocus on interaction
+      window.addEventListener('click', () => frame.focus(), { passive: true });
+      window.addEventListener('keydown', () => frame.focus(), { passive: true });
     });
   </script>
 </head>
 <body>
 
-  <!-- Back to Main Site -->
+  <!-- Back Button -->
   <a href="https://sites.google.com/view/staticquasar931/gm3z" id="backButton">← More Unblocked Games by Static</a>
 
   <!-- Game Iframe -->
@@ -90,6 +103,7 @@
     src="https://slope-unblocked-10x.github.io/action-games/minecraft-15/"
     allow="fullscreen; pointer-lock; clipboard-write; gamepad; accelerometer; gyroscope"
     allowfullscreen
+    sandbox="allow-scripts allow-same-origin allow-forms allow-pointer-lock allow-popups allow-modals"
     tabindex="0">
   </iframe>
 
